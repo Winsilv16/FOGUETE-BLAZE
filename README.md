@@ -76,5 +76,18 @@ class Nave(pygame.sprite.Sprite):
         texto_rect.center = (x, y)
         surf.blit(texto_surface, texto_rect)
 
+    def carregar_recorde():
+        try:
+          with open("recorde.txt", "r") as f:
+            return int(f.read())
+        except FileNotFoundError:
+          return 0
+
+
+    def salvar_recorde(recorde):
+        with open("recorde.txt", "w") as f:
+          f.write(str(recorde))
+
+
 
 
