@@ -47,7 +47,7 @@ class Nave(pygame.sprite.Sprite):
             class Asteroide(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = asteroide_img  # Usar a imagem do asteroide
+        self.image = asteroide_img  
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(largura - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
@@ -63,10 +63,18 @@ class Nave(pygame.sprite.Sprite):
             self.speedy = random.randrange(1, 8)
 
     def exibir_placar(surf, texto, tamanho, x, y):
-        fonte = pygame.font.Font(None, tamanho)  # Usando a fonte padrão
+        fonte = pygame.font.Font(None, tamanho) 
         texto_surface = fonte.render(texto, True, branco)
         texto_rect = texto_surface.get_rect()
         texto_rect.midtop = (x, y)  
         surf.blit(texto_surface, texto_rect)
+
+    def desenhar_texto(surf, texto, tamanho, cor, x, y):
+        fonte = pygame.font.Font(None, tamanho) 
+        texto_surface = fonte.render(texto, True, cor) 
+        texto_rect = texto_surface.get_rect()
+        texto_rect.center = (x, y)
+        surf.blit(texto_surface, texto_rect)
+
 
 
