@@ -95,6 +95,24 @@ game_over = False
 running = True
 no_menu = True
 
+while no_menu:
+    tela.blit(fundo_img, (0, 0))
+    desenhar_texto(tela, "Foguete Blaze", 64, branco, largura // 2, altura // 4)
+    desenhar_texto(tela, "Aperte ESPAÇO para começar", 32, branco, largura // 2, altura // 2)
+    desenhar_texto(tela, "Aperte ESC para sair", 32, branco, largura // 2, (altura // 2) + 50)
+    pygame.display.flip()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                no_menu = False
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                quit()
+
+
 
 
 
