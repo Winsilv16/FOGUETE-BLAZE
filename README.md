@@ -44,3 +44,22 @@ class Nave(pygame.sprite.Sprite):
         if self.rect.right > largura:
             self.rect.right = largura
 
+            class Asteroide(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = asteroide_img  # Usar a imagem do asteroide
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(largura - self.rect.width)
+        self.rect.y = random.randrange(-100, -40)
+        self.speedy = random.randrange(1, 8)
+        self.speedx = random.randrange(-3, 3)
+
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+        if self.rect.top > altura + 10 or self.rect.left < -25 or self.rect.right > largura + 20:
+            self.rect.x = random.randrange(largura - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange(1, 8)
+
+
