@@ -112,6 +112,16 @@ while no_menu:
                 pygame.quit()
                 quit()
 
+todos_sprites = pygame.sprite.Group()
+asteroides = pygame.sprite.Group()
+nave = Nave()
+todos_sprites.add(nave)
+
+for i in range(8):
+    a = Asteroide()
+    todos_sprites.add(a)
+    asteroides.add(a)
+
 
 
 
