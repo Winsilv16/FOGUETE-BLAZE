@@ -122,6 +122,39 @@ for i in range(8):
     todos_sprites.add(a)
     asteroides.add(a)
 
+    while running:
+    if game_over:
+        tela.fill(preto)
+        desenhar_texto(tela, "GAME OVER", 64, vermelho, largura // 2, altura // 4)
+        desenhar_texto(tela, "Pontuação: " + str(pontuacao), 32, branco, largura // 2, altura // 2)
+        desenhar_texto(tela, "Recorde: " + str(recorde), 32, branco, largura // 2, altura // 2 + 50)
+        desenhar_texto(tela, "Pressione qualquer tecla para jogar novamente", 24, branco, largura // 2, altura * 3 // 4)
+        pygame.display.flip()
+
+        aguardando = True
+        while aguardando:
+            clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    aguardando = False
+                if event.type == pygame.KEYUP:
+                    aguardando = False
+                    game_over = False
+                    # Reinicializar o jogo
+                    todos_sprites = pygame.sprite.Group()
+                    asteroides = pygame.sprite.Group()
+                    nave = Nave()
+                    todos_sprites.add(nave)
+                    for i in range(8):
+                        a = Asteroide()
+                        todos_sprites.add(a)
+                        asteroides.add(a)
+                    pontuacao = 0
+
+    else:
+        clock.tick(60)
+
 
 
 
