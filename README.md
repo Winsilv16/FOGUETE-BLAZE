@@ -31,3 +31,16 @@ class Nave(pygame.sprite.Sprite):
         self.rect.bottom = altura - 10
         self.speedx = 0
 
+    def update(self):
+        self.speedx = 0
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_LEFT]:
+            self.speedx = -5
+        if keystate[pygame.K_RIGHT]:
+            self.speedx = 5
+        self.rect.x += self.speedx
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > largura:
+            self.rect.right = largura
+
