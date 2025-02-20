@@ -21,3 +21,13 @@ fundo_img = pygame.image.load("Espaçosideral_screen.jpg")
 nave_img = pygame.transform.scale(nave_img, (50, 50))
 asteroide_img = pygame.transform.scale(asteroide_img, (50, 50))
 fundo_img = pygame.transform.scale(fundo_img, (largura, altura))
+
+class Nave(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = nave_img 
+        self.rect = self.image.get_rect()
+        self.rect.centerx = largura // 2
+        self.rect.bottom = altura - 10
+        self.speedx = 0
+
