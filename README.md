@@ -22,10 +22,8 @@ monstro_img = pygame.image.load("MONSTRO.png")  # Imagem do monstro
 
 # Imagens dos Bosses
 alexandre_img = pygame.image.load("Alexandre.jpg")
-milson_img = pygame.image.load("Milson.jpg")
 silvia_img = pygame.image.load("Silvia.jpg")
 dani_img = pygame.image.load("Dani.jpg")
-
 
 # Escalar imagens
 nave_img = pygame.transform.scale(nave_img, (50, 50))
@@ -36,7 +34,6 @@ monstro_img = pygame.transform.scale(monstro_img, (80, 80))  # Escala do monstro
 
 # Escalar imagens dos Bosses
 alexandre_img = pygame.transform.scale(alexandre_img, (80, 80))
-milson_img = pygame.transform.scale(milson_img, (80, 80))
 silvia_img = pygame.transform.scale(silvia_img, (80, 80))
 dani_img = pygame.transform.scale(dani_img, (80, 80))
 
@@ -45,11 +42,6 @@ som_tiro = pygame.mixer.Sound(
     "Som de Tiro de Sub Metralhadora UMP-45, barulhos de tiros - Efeitos Sonoros HD (mp3cut.net).mp3"
 )
 som_explosao = pygame.mixer.Sound("Atomic Explosion Meme (mp3cut.net).mp3")
-
-pygame.mixer.music.load(
-    "BEAT_NO_TEMPO_DOS_IMBU_-_Nunca_vi_um_imbu_ser_tao_gostoso_-_Viral_(FUNK_REMIX)_by_Sr._Dart_[_YouConvert.net_].mp3"
-)
-pygame.mixer.music.play(-1)
 
 
 class Nave(pygame.sprite.Sprite):
@@ -274,11 +266,11 @@ ultimo_boss = pygame.time.get_ticks()
 
 # Menu de Dificuldade
 def menu_dificuldade(game_state):
-    dificuldade = game_state['dificuldade']
-    asteroide_frequencia = game_state['asteroide_frequencia']
-    max_asteroides = game_state['max_asteroides']
-    monstro_frequencia = game_state['monstro_frequencia']
-    boss_frequencia = game_state['boss_frequencia']
+    dificuldade = game_state["dificuldade"]
+    asteroide_frequencia = game_state["asteroide_frequencia"]
+    max_asteroides = game_state["max_asteroides"]
+    monstro_frequencia = game_state["monstro_frequencia"]
+    boss_frequencia = game_state["boss_frequencia"]
 
     selecionando_dificuldade = True
     while selecionando_dificuldade:
@@ -311,84 +303,93 @@ def menu_dificuldade(game_state):
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
-                    game_state['dificuldade'] = 1
-                    game_state['asteroide_frequencia'] = 60
-                    game_state['max_asteroides'] = 10
-                    game_state['monstro_frequencia'] = float("inf")
-                    game_state['boss_frequencia'] = float("inf")  # Sem Bosses
+                    game_state["dificuldade"] = 1
+                    game_state["asteroide_frequencia"] = 60
+                    game_state["max_asteroides"] = 10
+                    game_state["monstro_frequencia"] = float("inf")
+                    game_state["boss_frequencia"] = float("inf")  # Sem Bosses
                     selecionando_dificuldade = False
                 elif event.key == pygame.K_2:
-                    game_state['dificuldade'] = 2
-                    game_state['asteroide_frequencia'] = 45
-                    game_state['max_asteroides'] = 15
-                    game_state['monstro_frequencia'] = 7000
-                    game_state['boss_frequencia'] = 15000  # Bosses aparecem a cada 15 segundos
+                    game_state["dificuldade"] = 2
+                    game_state["asteroide_frequencia"] = 45
+                    game_state["max_asteroides"] = 15
+                    game_state["monstro_frequencia"] = 7000
+                    game_state[
+                        "boss_frequencia"
+                    ] = 15000  # Bosses aparecem a cada 15 segundos
                     selecionando_dificuldade = False
                 elif event.key == pygame.K_3:
-                    game_state['dificuldade'] = 3
-                    game_state['asteroide_frequencia'] = 30
-                    game_state['max_asteroides'] = 20
-                    game_state['monstro_frequencia'] = 5000
-                    game_state['boss_frequencia'] = 10000  # Bosses aparecem a cada 10 segundos
+                    game_state["dificuldade"] = 3
+                    game_state["asteroide_frequencia"] = 30
+                    game_state["max_asteroides"] = 20
+                    game_state["monstro_frequencia"] = 5000
+                    game_state[
+                        "boss_frequencia"
+                    ] = 10000  # Bosses aparecem a cada 10 segundos
                     selecionando_dificuldade = False
 
     return game_state
 
 
 # Menu Inicial
-game_state = {
-    'dificuldade': 1,
-    'asteroide_frequencia': 60,
-    'max_asteroides': 20,
-    'monstro_frequencia': 7000,
-    'ultimo_monstro': pygame.time.get_ticks(),
-    'boss_frequencia': 10000,
-    'ultimo_boss': pygame.time.get_ticks(),
-}
-
-while no_menu:
-    tela.blit(fundo_img, (0, 0))
-    desenhar_texto(tela, "Foguete Blaze", 64, branco, largura // 2, altura // 4)
-    desenhar_texto(
-        tela, "Aperte ESPAÇO para começar", 32, branco, largura // 2, altura // 2
-    )
-    desenhar_texto(
-        tela, "Aperte ESC para sair", 32, branco, largura // 2, (altura // 2) + 50
-    )
-    pygame.display.flip()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                no_menu = False
-                game_state = menu_dificuldade(game_state)  # Abre o menu de dificuldade
-            if event.key == pygame.K_ESCAPE:
+def menu_inicial(game_state):
+    global no_menu, running
+    no_menu = True
+    while no_menu:
+        tela.blit(fundo_img, (0, 0))
+        desenhar_texto(tela, "Foguete Blaze", 64, branco, largura // 2, altura // 4)
+        desenhar_texto(
+            tela, "Aperte ESPAÇO para começar", 32, branco, largura // 2, altura // 2
+        )
+        desenhar_texto(
+            tela, "Aperte ESC para sair", 32, branco, largura // 2, (altura // 2) + 50
+        )
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    no_menu = False
+                    game_state = (
+                        menu_dificuldade(game_state)
+                    )  # Abre o menu de dificuldade
+                    return False  # Indica para não sair do jogo
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+    return True  # Indica para sair do jogo
 
 
 # Inicialização do Jogo
-todos_sprites = pygame.sprite.Group()
-asteroides = pygame.sprite.Group()
-projeteis = pygame.sprite.Group()
-nave = Nave()
-todos_sprites.add(nave)
+def inicializar_jogo(game_state):
+    global todos_sprites, asteroides, projeteis, nave, monstros, bosses, contador_asteroides, pontuacao
 
-# Ajustar a criação de asteroides com base na dificuldade
-if game_state['dificuldade'] == 1:
-    criar_asteroides(8, 0.5)  # Fácil: 8 asteroides, velocidade base 0.5
-elif game_state['dificuldade'] == 2:
-    criar_asteroides(12, 0.75)  # Médio: 12 asteroides, velocidade base 0.75
-elif game_state['dificuldade'] == 3:
-    criar_asteroides(16, 1)  # Difícil: 16 asteroides, velocidade base 1
+    todos_sprites = pygame.sprite.Group()
+    asteroides = pygame.sprite.Group()
+    projeteis = pygame.sprite.Group()
+    monstros = pygame.sprite.Group()
+    bosses = pygame.sprite.Group()
+    nave = Nave()
+    todos_sprites.add(nave)
+
+    # Ajustar a criação de asteroides com base na dificuldade
+    if game_state["dificuldade"] == 1:
+        criar_asteroides(8, 0.5)  # Fácil: 8 asteroides, velocidade base 0.5
+    elif game_state["dificuldade"] == 2:
+        criar_asteroides(12, 0.75)  # Médio: 12 asteroides, velocidade base 0.75
+    elif game_state["dificuldade"] == 3:
+        criar_asteroides(16, 1)  # Difícil: 16 asteroides, velocidade base 1
+
+    contador_asteroides = ContadorAsteroides()
+    pontuacao = 0
 
 
 # Função para criar Bosses aleatórios
 def criar_boss(velocidade_base):
     boss_type = random.choice(
-        ["Alexandre", "Milson", "Silvia", "Dani"]
+        ["Alexandre", "Silvia", "Dani"]
     )  # Escolhe um boss aleatório
     if boss_type == "Alexandre":
         boss = Alexandre(velocidade_base)
@@ -405,9 +406,168 @@ def criar_boss(velocidade_base):
     bosses.add(boss)
 
 
+# Game State Inicial
+game_state = {
+    "dificuldade": 1,
+    "asteroide_frequencia": 60,
+    "max_asteroides": 20,
+    "monstro_frequencia": 7000,
+    "ultimo_monstro": pygame.time.get_ticks(),
+    "boss_frequencia": 10000,
+    "ultimo_boss": pygame.time.get_ticks(),
+}
+
 # Loop Principal do Jogo
 running = True
+# Mostrar o menu inicial antes de começar o jogo
+if menu_inicial(game_state):
+    running = False
+
 while running:
+    # Inicializar o jogo após o menu
+    inicializar_jogo(game_state)
+    game_active = True  # Variável para controlar o estado do jogo
+    while game_active:
+        clock.tick(60)
+
+        # Eventos
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_active = False
+                running = False  # Encerra o jogo completamente
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    tiro = Projeteil(nave)
+                    todos_sprites.add(tiro)
+                    projeteis.add(tiro)
+                    som_tiro.play()
+                if event.key == pygame.K_ESCAPE:
+                    # Retorna ao menu inicial
+                    game_active = False  # Encerra o loop do jogo atual
+                    inicializar_jogo(game_state)  # Reinicializa o jogo
+                    if menu_inicial(game_state):  # Mostra o menu inicial novamente
+                        running = False  # Se o jogador sair do menu, encerra o jogo
+                    break  # Sai do loop de eventos atual
+
+        # Lógica do jogo (se não estiver no menu)
+        if game_active:
+            # Atualizar
+            todos_sprites.update()
+
+            # Criar asteroides
+            agora = pygame.time.get_ticks()
+            if agora - ultimo_asteroide > asteroide_frequencia:
+                ultimo_asteroide = agora
+                if len(asteroides) < max_asteroides:
+                    a = Asteroide(game_state["dificuldade"] * 0.5)  # Ajusta a velocidade base
+                    todos_sprites.add(a)
+                    asteroides.add(a)
+
+            # Criar monstros
+            if (
+                game_state["monstro_frequencia"] != float("inf")
+                and agora - game_state["ultimo_monstro"]
+                > game_state["monstro_frequencia"]
+            ):
+                game_state["ultimo_monstro"] = agora
+                monstro = Monstro(game_state["dificuldade"] * 0.3)  # Ajusta a velocidade base
+                todos_sprites.add(monstro)
+                monstros.add(monstro)
+
+            # Criar chefes
+            if (
+                game_state["boss_frequencia"] != float("inf")
+                and agora - game_state["ultimo_boss"] > game_state["boss_frequencia"]
+            ):
+                game_state["ultimo_boss"] = agora
+                criar_boss(game_state["dificuldade"] * 0.4)  # Ajusta a velocidade base
+
+            # Colisões entre projéteis e asteroides
+            colisoes = pygame.sprite.groupcollide(asteroides, projeteis, True, True)
+            for colisao in colisoes:
+                pontuacao += 10
+                som_explosao.play()
+                contador_asteroides.incrementa()
+                # Recriar asteroide
+                a = Asteroide(game_state["dificuldade"] * 0.5)  # Ajusta a velocidade base
+                todos_sprites.add(a)
+                asteroides.add(a)
+
+            # Colisões entre projéteis e monstros
+            colisoes_monstros = pygame.sprite.groupcollide(
+                monstros, projeteis, False, True
+            )  # Não remove o monstro imediatamente
+            for monstro, projeteis_atingidos in colisoes_monstros.items():
+                for projetil in projeteis_atingidos:
+                    if monstro.tomar_dano():  # Se o monstro foi destruído
+                        pontuacao += 50  # Dá mais pontos por destruir monstros
+                        som_explosao.play()  # Toca o som de explosão
+                        # Criar novo monstro
+                        monstro = Monstro(game_state["dificuldade"] * 0.3)  # Ajusta a velocidade base
+                        todos_sprites.add(monstro)
+                        monstros.add(monstro)
+                    break  # Monstro só pode ser atingido por um projétil por vez
+
+            # Colisões entre projéteis e chefes
+            colisoes_bosses = pygame.sprite.groupcollide(
+                bosses, projeteis, False, True
+            )  # Não remove o chefe imediatamente
+            for boss, projeteis_atingidos in colisoes_bosses.items():
+                for projetil in projeteis_atingidos:
+                    if boss.tomar_dano():  # Se o chefe foi destruído
+                        pontuacao += 100  # Pontuação alta por destruir chefes
+                        som_explosao.play()
+                        # Criar novo chefe
+                        criar_boss(game_state["dificuldade"] * 0.4)  # Ajusta a velocidade base
+                    break
+
+            # Colisões entre a nave e asteroides/monstros/chefes
+            colisoes_nave = pygame.sprite.spritecollide(
+                nave, asteroides, True
+            )  # Remove o asteroide
+            if colisoes_nave:
+                game_active = False  # Fim de jogo
+                game_over = True
+                som_explosao.play()
+
+            colisoes_nave_monstros = pygame.sprite.spritecollide(
+                nave, monstros, True
+            )  # Remove o monstro
+            if colisoes_nave_monstros:
+                game_active = False  # Fim de jogo
+                game_over = True
+                som_explosao.play()
+
+            colisoes_nave_bosses = pygame.sprite.spritecollide(nave, bosses, True)
+            if colisoes_nave_bosses:
+                game_active = False
+                game_over = True
+                som_explosao.play()
+
+            # Desenhar
+            tela.blit(fundo_img, (0, 0))
+            todos_sprites.draw(tela)
+
+            # Placar
+            exibir_placar(
+                tela, "Pontuação: " + str(pontuacao), 32, largura // 2, 10
+            )
+            exibir_placar(tela, "Recorde: " + str(recorde), 24, largura // 4, 10)
+            exibir_placar(
+                tela,
+                "Asteroides Destruídos: " + str(contador_asteroides.obter_total()),
+                24,
+                largura * 3 // 4,
+                10,
+            )
+
+            # Após o loop principal, antes de encerrar o programa
+            if pontuacao > recorde:
+                recorde = pontuacao
+                salvar_recorde(recorde)
+
+            pygame.display.flip()
+
     if game_over:
         tela.fill(preto)
         desenhar_texto(tela, "GAME OVER", 64, vermelho, largura // 2, altura // 4)
@@ -432,10 +592,11 @@ while running:
         )
         desenhar_texto(
             tela,
-            "Pressione qualquer tecla para jogar novamente",
+            "Pressione qualquer tecla para jogar novamente ou ESC para o menu",
             24,
             branco,
-            largura * 3 // 4,
+            largura // 2,
+            altura // 2 + 150,
         )
         pygame.display.flip()
 
@@ -447,144 +608,19 @@ while running:
                     running = False
                     aguardando = False
                 if event.type == pygame.KEYUP:
-                    aguardando = False
-                    game_over = False
-                    # Reinicializar o jogo
-                    todos_sprites = pygame.sprite.Group()
-                    asteroides = pygame.sprite.Group()
-                    projeteis = pygame.sprite.Group()
-                    monstros = pygame.sprite.Group()  # Reinicializar o grupo de monstros
-                    bosses = pygame.sprite.Group()  # Reinicializar o grupo de chefes
-                    nave = Nave()
-                    todos_sprites.add(nave)
-                    pontuacao = 0
-                    # Reset game state
-                    game_state = {
-                        'dificuldade': 1,
-                        'asteroide_frequencia': 60,
-                        'max_asteroides': 20,
-                        'monstro_frequencia': 7000,
-                        'ultimo_monstro': pygame.time.get_ticks(),
-                        'boss_frequencia': 10000,
-                        'ultimo_boss': pygame.time.get_ticks(),
-                    }
-                    game_state = menu_dificuldade(game_state)  # Abre o menu de dificuldade
-
-                    # Recriar asteroides com base na dificuldade
-                    if game_state['dificuldade'] == 1:
-                        criar_asteroides(8, 0.5)
-                    elif game_state['dificuldade'] == 2:
-                        criar_asteroides(12, 0.75)
-                    elif game_state['dificuldade'] == 3:
-                        criar_asteroides(16, 1)
-
-    else:
-        clock.tick(60)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:  # Tecla de disparo
-                    projeteil = Projeteil(nave)
-                    todos_sprites.add(projeteil)
-                    projeteis.add(projeteil)
-                    som_tiro.play()
-
-        # Verificar se é hora de criar um novo asteroide
-        agora = pygame.time.get_ticks()
-        if (
-            agora - ultimo_asteroide >= game_state['asteroide_frequencia']
-            and len(asteroides) < game_state['max_asteroides']
-        ):
-            ultimo_asteroide = agora
-            a = Asteroide(game_state['dificuldade'] * 0.25 + 0.25)
-            todos_sprites.add(a)
-            asteroides.add(a)
-
-        # Criar monstros periodicamente
-        if game_state['dificuldade'] >= 2:  # Monstros aparecem nos níveis 2 e 3
-            agora = pygame.time.get_ticks()
-            if agora - game_state['ultimo_monstro'] >= game_state['monstro_frequencia']:
-                game_state['ultimo_monstro'] = agora
-                monstro = Monstro(
-                    game_state['dificuldade'] * 0.25
-                )  # Velocidade baseada na dificuldade
-                todos_sprites.add(monstro)
-                monstros.add(monstro)
-
-        # Criar Bosses periodicamente
-        if game_state['dificuldade'] == 3:  # Bosses aparecem apenas na dificuldade difícil
-            agora = pygame.time.get_ticks()
-            if agora - game_state['ultimo_boss'] >= game_state['boss_frequencia']:
-                game_state['ultimo_boss'] = agora
-                criar_boss(
-                    game_state['dificuldade'] * 0.25 + 0.25
-                )  # Velocidade baseada na dificuldade
-
-        todos_sprites.update()
-
-        colisoes = pygame.sprite.spritecollide(nave, asteroides, False)
-        if colisoes:
-            game_over = True
-            if pontuacao > recorde:
-                recorde = pontuacao
-                salvar_recorde(recorde)
-
-        # Colisões de monstros com a nave
-        colisoes_monstro_nave = pygame.sprite.spritecollide(nave, monstros, False)
-        if colisoes_monstro_nave:
-            game_over = True  # Fim de jogo se o monstro tocar a nave
-            if pontuacao > recorde:
-                recorde = pontuacao
-                salvar_recorde(recorde)
-
-        # Colisões de Bosses com a nave
-        colisoes_boss_nave = pygame.sprite.spritecollide(nave, bosses, False)
-        if colisoes_boss_nave:
-            game_over = True  # Fim de jogo se o boss tocar a nave
-            if pontuacao > recorde:
-                recorde = pontuacao
-                salvar_recorde(recorde)
-
-        # Verificar colisões entre projéteis e asteroides
-        colisoes_projeteis = pygame.sprite.groupcollide(
-            projeteis, asteroides, True, True
-        )
-        if colisoes_projeteis:
-            pontuacao += (
-                len(colisoes_projeteis) * 10
-            )  # Aumenta a pontuação por cada asteroide atingido
-            game_state['asteroide_frequencia'] *= (
-                0.9  # Aumenta a frequência de aparecimento dos asteroides
-            )
-            if game_state['asteroide_frequencia'] < 10:  # Limite para evitar que fique muito rápido
-                game_state['asteroide_frequencia'] = 10
-
-        # Colisões entre projéteis e monstros
-        colisoes_projeteis_monstros = pygame.sprite.groupcollide(
-            projeteis, monstros, True, False
-        )
-        for projetil, monstros_atingidos in colisoes_projeteis_monstros.items():
-            for monstro in monstros_atingidos:
-                if monstro.tomar_dano():  # Se o monstro foi destruído
-                    pontuacao += 50  # Aumenta a pontuação ao destruir um monstro
-
-        # Colisões entre projéteis e Bosses
-        colisoes_projeteis_bosses = pygame.sprite.groupcollide(
-            projeteis, bosses, True, False
-        )
-        for projetil, bosses_atingidos in colisoes_projeteis_bosses.items():
-            for boss in bosses_atingidos:
-                if boss.tomar_dano():  # Se o boss foi destruído
-                    pontuacao += 100  # Aumenta a pontuação ao destruir um boss
-
-        tela.blit(fundo_img, (0, 0))
-        todos_sprites.draw(tela)
-
-        # Exibir pontuação
-        exibir_placar(tela, "Pontuação: " + str(pontuacao), 32, largura // 2, 10)
-
-        pygame.display.flip()
+                    if event.key == pygame.K_ESCAPE:
+                        # Retorna ao menu inicial
+                        aguardando = False
+                        game_over = False
+                        inicializar_jogo(game_state)  # Reinicializa o jogo
+                        if menu_inicial(game_state):  # Mostra o menu inicial novamente
+                            running = False  # Se o jogador sair do menu, encerra o jogo
+                        break  # Sai do loop de eventos atual
+                    else:
+                        aguardando = False
+                        game_over = False
+                        # Reinicializar o jogo
+                        inicializar_jogo(game_state)
+                        break
 
 pygame.quit()
