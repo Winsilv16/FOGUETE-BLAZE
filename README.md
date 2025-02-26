@@ -177,12 +177,7 @@ class Boss(pygame.sprite.Sprite):
 class Alexandre(Boss):
     def __init__(self, velocidade_base):
         super().__init__(alexandre_img, velocidade_base)
-
-
-class Milson(Boss):
-    def __init__(self, velocidade_base):
-        super().__init__(milson_img, velocidade_base)
-
+        
 
 class Silvia(Boss):
     def __init__(self, velocidade_base):
@@ -285,7 +280,7 @@ def menu_dificuldade(game_state):
             tela, "2 - Médio", 32, branco, largura // 2, altura // 2 + 20
         )
         desenhar_texto(
-            tela, "3 - Difícil", 32, branco, largura // 2, altura // 2 + 70
+            tela, "3 - Difícil(Rápido)", 32, branco, largura // 2, altura // 2 + 70
         )
         desenhar_texto(
             tela,
@@ -389,12 +384,10 @@ def inicializar_jogo(game_state):
 # Função para criar Bosses aleatórios
 def criar_boss(velocidade_base):
     boss_type = random.choice(
-        ["Alexandre", "Silvia", "Dani"]
+        ["Alexandre","Silvia", "Dani"]
     )  # Escolhe um boss aleatório
     if boss_type == "Alexandre":
         boss = Alexandre(velocidade_base)
-    elif boss_type == "Milson":
-        boss = Milson(velocidade_base)
     elif boss_type == "Silvia":
         boss = Silvia(velocidade_base)
     elif boss_type == "Dani":
